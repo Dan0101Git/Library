@@ -6,6 +6,7 @@ const plusButton=document.querySelector(".add-book button");
 const mainClassList=document.querySelector("main").classList;
 const article=document.querySelector("article");
 
+
 //change display to add form section(sidebar)
 plusButton.addEventListener("click",()=>{mainClassList.add("plus")
     mainClassList.remove("minus");
@@ -48,6 +49,9 @@ function addBookToLibrary(title,author,pages,read) {
     const book=new Book(title,author,pages,read);
     console.dir(book);
   if(checkFormFilled(book)){myLibrary.push(book);
+    //Add unique id to each  book
+    book.id=crypto.randomUUID();
+    console.log(book.id);
 
 createBookCard(book);}
 else {
@@ -61,15 +65,67 @@ function createBookCard(book){
    
 const newBookCard=document.createElement("div");
 newBookCard.className="card";
+newBookCard.classList.add(book.id);
+//add delete button to card
+const deleteButton=document.createElement("button");
+deleteButton.classList.add("delete-button");
+deleteButton.textContent="X";
+//add event listener to delete
+deleteButton.addEventListener("click",deleteCard);
+newBookCard.appendChild(deleteButton);
+
 dataDisplay(book,newBookCard);
 article.firstElementChild.insertBefore(newBookCard,article.firstElementChild.children[0]);
    mainClassList.remove("plus");
    mainClassList.add("minus");
 
-}
-function dataDisplay(book){
+return;
 
 }
+function dataDisplay(book,newBookCard){
+    const bookKeys=Object.keys(book);
+    let bookEntryCount=0;
+    let flag=0;
+     bookKeys.forEach((key)=>{
+          bookEntryCount++;
+      if(flag===1){
+        return;
+      }
+          const cardNode=document.createElement("p");
+                  cardNode.textContent=book[key];
+        newBookCard.appendChild(cardNode);
+      cardNode.classList.add("card-font");
+              if(bookEntryCount<=2){
+if(bookEntryCount===1){
+    cardNode.classList.add("card-title");
+}
+else(cardNode.classList.add("card-author"));
+          }
+          else {
+            flag=1;
+            cardNode.textContent=`This book contains ${book["pages"]} pages and is ${book["read"]?"already read":"not read yet"}`;
+          }
+
+     });
+
+}
+
+//add delete functionality
+function deleteCard(e){
+   if(confirm("Delete this Book")){
+    console.log(myLibrary);
+    let index;
+    const filteredobject=  myLibrary.filter((book)=>{
+       if(book.id===e.target.parentNode.classList.value.slice(5,))
+        index=myLibrary.indexOf(book);
+        return book.id===e.target.parentNode.classList.value.slice(5,)});
+    myLibrary.splice(index,1);
+    e.target.parentNode.remove();
+   console.log(myLibrary);
+
+
+   }
+} 
 
 function checkFormFilled(book){
     let flag=1;
