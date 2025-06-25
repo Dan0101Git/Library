@@ -256,7 +256,7 @@ height: 100%;
 
 }
 .card{
-    background-color: var(--body-background);
+    background-color: rgba(245, 245, 220, 0.408);
     border-radius: 1rem;
     position: relative;
    max-width: 500px;
@@ -264,7 +264,7 @@ height: 100%;
 }
 
 .card:not(.card.add-book):hover{
-       background-color: rgba(83, 83, 83, 0.905);
+       background-color: var(--body-background);
 
     scale:1.01;
     box-shadow: 3px 3px 2px 2px var(--card-display-color);
@@ -275,7 +275,7 @@ height: 100%;
    z-index: 1;
 }
 .card:not(.card.add-book):hover .card-image{
-    opacity: 0.1;
+    opacity: 0.15;
     z-index: -1;
 }
 
@@ -326,9 +326,9 @@ overflow: hidden;
 }
  .card-font{
     visibility: hidden;
-    font-family: var(--button-background);
+    font-family: var(--body-font);
   font-size: min(calc( 0.1vw + .8rem),1rem);
-    color: var(--body-background);
+    color: var(--button-background);
 }
 .card-image{
     width:100%;
@@ -336,7 +336,7 @@ overflow: hidden;
     position: absolute;
     top:0;
     left:0;
-    
+ object-fit: cover;   
 }
 
 

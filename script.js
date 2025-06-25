@@ -7,7 +7,7 @@ const removeFormButton=document.querySelector(".remove-sidebar button");
 const mainClassList=document.querySelector("main").classList;
 const article=document.querySelector("article");
 //store image url's
-const imgArray=["3idiots","inception","interstellar","udaan","whiplash"];
+const imgArray=["3idiots","inception","interstellar2","udaan","whiplash"];
 //generate random url
 function generateRandomimgUrl(){
     return `images/movies/${imgArray[rand(imgArray.length)]}.jpg`;
