@@ -4,14 +4,15 @@
     margin: 0;
 }
 :root{
-    --body-background:beige;
+    --body-background:rgb(245, 245, 220);
     --card-background:rgba(111, 111, 0, 0.337);
     --button-background: #6b2737;
 ---sidebar-bg:#6b273767;
 --card-display-color:rgba(65, 15, 51, 0.569);
 --form-font-color:rgba(3, 3, 3, 0.891);
 --form-item-width: clamp(14rem,90%,30rem);
---card-font:"Montserrat", sans-serif;
+--heading-font: "Lora", serif;
+--body-font:"Lato", sans-serif;
 }
 body,html{
     min-height: 100vh;
@@ -19,7 +20,7 @@ body,html{
 }
 
 .container{
-    
+    position: relative;
     min-height:100vh;
     padding:1.5rem;
     text-align: center;
@@ -28,7 +29,7 @@ body,html{
     grid-template-areas: "header header"
     "main main"
     "footer footer";
-    gap:1rem;
+    gap:2rem;
 }
 .container>*{
     /* background-color:var(--card-display-color); */
@@ -39,19 +40,25 @@ body,html{
     /* background-color: var(--card-background); */
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-family:cursive;
+    justify-content: flex-start;
+    font-family:var(--heading-font);
     color:var(--button-background);
     background-color: var(--body-background);
 }
+header h1{
+    letter-spacing: 2px;
+}
 header img{
     height: 90%;
+}
+header>*:hover{
+    scale:1.05;
 }
 main.plus{
     grid-area: main;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap:1rem;
+    gap:3rem;
     padding: 1rem;
     
 }
@@ -71,17 +78,18 @@ main>*{
     display: block;
 }
 .sidebar{
-
-    background-color: #6b273767;
+ box-shadow:1px 1px 5px 3px var(--button-background) ;
+    /* background-color: #6b273767; */
     padding:1rem;
     max-height: 70vh;
 
 }
 form{
     padding:1rem;
+    padding-top: 3rem;
 position: relative;
 }
-form legend,label,form button{
+form,label,form button{
         color: var(--form-font-color);
 }
 fieldset{
@@ -92,35 +100,41 @@ fieldset>div:not(.notimportant){
     flex-direction: column;
     align-items: center;
 }
-legend{
-    font-size: 2rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+input,label,button,label::before,label::after{
+    font-family: var(--body-font);
 }
+
 .remove-sidebar button{
     position: absolute;
     /* width:2.2rem;
     height:2.2rem; */
-    top:0;
-    right: 0;
-    border: none;
-    border-radius: 50%;
-background-color: var(--sidebar-bg);
+    top:-.2rem;
+    right: -.2rem;
+    border: 1px solid var(--body-background);
+    /* border-radius: 50%; */
+background-color: var(--body-background);
     color: var(--button-background);
     padding:.5em;
     font-size: .8em;
+    width:2rem;
+height: 2rem;
+border-radius: .7rem;
 }
 .remove-sidebar button:hover{
     scale:1.1;
-    box-shadow: 0 0 3px 1px var(--button-background);
+        box-shadow:0 0 1px 1px var(--body-background) ;
+ 
     background-color: rgba(128, 128, 128, 0.354);
+    font-weight: bold;
 }
-form fieldset>div,legend{
-    margin-bottom: max(2.5rem,calc(2vw + 1rem));
+form fieldset>div{
+    margin-bottom: max(3.5rem,calc(2vw + 1.5rem));
 }
 label{
     text-align: left;
     font-size: 1.2rem;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
     width: var(--form-item-width);
 
 }
@@ -150,6 +164,7 @@ fieldset>div:not(.notimportant) label{
 .notimportant label{
     width: auto;
 }
+
 input{
     background-color: var(--body-background);
     border: none;
@@ -224,18 +239,23 @@ button[type="submit"]{
     padding:1rem;
     font-size: 1.4rem;
     border: none;
-    width: var(--form-item-width);
+    width: 100%;
     border-radius: .8rem;
     color: var(--body-background);
+}
+button[type="submit"]:hover{
+    scale:1.01;
+    font-weight: 500;
 }
 article{
     padding:1rem;
 }
 .cards{
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(18em,1fr));
-    grid-auto-rows: 15em;
-    gap:5rem;
+    grid-template-columns: repeat(auto-fit,minmax(15em,1fr));
+    grid-auto-rows: 17em;
+    justify-content: center;
+    gap:4rem;
 height: 100%;
 
 }
@@ -243,6 +263,7 @@ height: 100%;
     background-color: var(--body-background);
     border-radius: 1rem;
     position: relative;
+   max-width: 500px;
 }
 .card:not(.card.add-book):hover{
     scale:1.01;
@@ -263,8 +284,9 @@ position: absolute;
 right: -0.2rem;
 top:-0.2rem;
 visibility: hidden;
+border: none;
 }
-.card:not(.card.add-book):hover .delete-button{
+.card:not(.card.add-book):hover .delete-button,.card:not(.card.add-book):focus .delete-button{
     visibility: visible;
     box-shadow:0 0 1px 1px var(--body-background) ;
 }
@@ -283,14 +305,16 @@ scale:1.05;
     font-size: min(calc( 1.5vw + 1rem),2rem);
     margin-bottom: 1rem;
       font-weight: 800;
+      font-family: var(--heading-font);
 }
 .card .card-author{
     font-size: min(calc( 1.1vw + 1rem),1.5rem);
     margin-bottom: .8rem;
       font-weight: 500;
+      font-family: var(--body-font);
 }
  .card-font{
-    font-family: var(--card-font);
+    font-family: var(--body-font);
   font-size: min(calc( 0.1vw + .8rem),1rem);
     color: var(--button-background);
 }
@@ -298,13 +322,18 @@ scale:1.05;
 
 /* add-book card styling */
 .card.add-book{
+    width:100px;
+    height:100px;
+    position: absolute;
+    top:1rem;
+    right:2.5rem;
   display: flex;
   justify-content: center;
  align-items: center;
 box-shadow:   0 0 5px 1px var(--button-background)
 }
 .card.add-book button{
-    background: url("/images/plus.png");
+    background: url("/images/plus2.png");
 width: 50%;
 height: 50%;
 
@@ -312,15 +341,14 @@ height: 50%;
     border: none;
     background-position: center center;
     border-radius: 1rem;
-    font-family:  Haettenschweiler, sans-serif;
     color:var(--body-background);
     font-size: 2rem;
     background-repeat: no-repeat;
-      background-color: rgb(188, 188, 168);
+      background-color: rgba(188, 188, 168, 0.655);
 }
 .card.add-book button:hover{
-  box-shadow: 0 0 10px 5px gray;
-  scale:1.01
+  box-shadow: 0 0 5px 3px rgba(154, 154, 154, 0.737);
+  scale:1.05
 }
 
 

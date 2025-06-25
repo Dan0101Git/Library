@@ -75,7 +75,7 @@ newBookCard.classList.add(book.id);
 //add delete button to card
 const deleteButton=document.createElement("button");
 deleteButton.classList.add("delete-button");
-deleteButton.textContent="X";
+deleteButton.textContent="---";
 //add event listener to delete
 deleteButton.addEventListener("click",deleteCard);
 newBookCard.appendChild(deleteButton);
@@ -118,7 +118,7 @@ else(cardNode.classList.add("card-author"));
 
 //add delete functionality
 function deleteCard(e){
-   if(confirm("Delete this Book")){
+   
     console.log(myLibrary);
     let index;
     const filteredobject=  myLibrary.filter((book)=>{
@@ -130,7 +130,7 @@ function deleteCard(e){
    console.log(myLibrary);
 
 
-   }
+   
 } 
 
 function checkFormFilled(book){
