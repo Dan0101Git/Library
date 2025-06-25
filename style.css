@@ -230,17 +230,35 @@ label:has(+input:required:invalid.invalid)::after{
 }
 
 
-button[type="submit"]{
+button[type="submit"],.read-button{
     background-color: var(--button-background) ;
     padding:1rem;
     font-size: 1.4rem;
     border: none;
-    width: 100%;
     border-radius: .8rem;
     color: var(--body-background);
 }
-button[type="submit"]:hover{
-    scale:1.01;
+.read-button{
+    width:10ch;
+    text-align: center;
+       padding:.2em;
+    font-size: .8em;
+    position: absolute;
+    top:3%;
+    left:3%;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+}
+.read-button.state-unread{
+    color:var(--button-background);
+    background-color: var(--body-background);
+
+}
+button[type="submit"]{
+    width: 100%;
+}
+button[type="submit"]:hover,.read-button:hover,.read-button.state-unread:hover{
+    scale:1.06;
     font-weight: 500;
 }
 article{
@@ -263,10 +281,14 @@ height: 100%;
    /* max-height: 50vh; */
    display: flex;
    flex-direction: column;
-   gap:4em;
-   justify-content: center;
+   gap:clamp(2em,20%,4em);
+   justify-content:center;
+   /* height:100%; */
 }
 
+.card>*{
+    flex-shrink: 0;
+}
 .card:not(.card.add-book):hover{
        background-color: var(--body-background);
 
@@ -279,7 +301,7 @@ height: 100%;
    z-index: 1;
 }
 .card:not(.card.add-book):hover .card-image{
-    opacity: 0.15;
+    opacity: 0.09;
     z-index: -1;
 }
 
