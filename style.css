@@ -219,7 +219,7 @@ input:required.invalid{
 }
 label:has(+input:required:invalid.invalid){
     position: relative;
-    color: var(--body-background);
+    color: var(--button-background);
 }
 label:has(+input:required:invalid.invalid)::after{
     content: "this field is required";
