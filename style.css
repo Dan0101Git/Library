@@ -7,7 +7,7 @@
     --body-background:beige;
     --card-background:rgba(111, 111, 0, 0.337);
     --button-background: #6b2737;
---text-color:white;
+---sidebar-bg:#6b273767;
 --card-display-color:rgba(65, 15, 51, 0.569);
 --form-font-color:rgba(3, 3, 3, 0.891);
 --form-item-width: clamp(14rem,90%,30rem);
@@ -63,10 +63,7 @@ main.minus{
 main>*{
     border-radius: 1rem;
 }
-article{
-    /* background-color: #6b2737; */
-    
-}
+
 .minus .sidebar{
     display: none;
 }
@@ -101,20 +98,21 @@ legend{
 }
 .remove-sidebar button{
     position: absolute;
-    width:2rem;
-    height:2rem;
+    /* width:2.2rem;
+    height:2.2rem; */
     top:0;
     right: 0;
     border: none;
-    border-radius: 5px;
-background-color: rgba(128, 128, 128, 0.378);
+    border-radius: 50%;
+background-color: var(--sidebar-bg);
     color: var(--button-background);
-    padding:1em;
-    font-size: .7em;
+    padding:.5em;
+    font-size: .8em;
 }
 .remove-sidebar button:hover{
-    scale:1.01;
-    box-shadow: 0 0 0 1px var(--button-background);
+    scale:1.1;
+    box-shadow: 0 0 3px 1px var(--button-background);
+    background-color: rgba(128, 128, 128, 0.354);
 }
 form fieldset>div,legend{
     margin-bottom: max(2.5rem,calc(2vw + 1rem));
