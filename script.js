@@ -3,6 +3,7 @@
 
 const submit=document.querySelector("button[type='submit']");
 const plusButton=document.querySelector(".add-book button");
+const removeFormButton=document.querySelector(".remove-sidebar button");
 const mainClassList=document.querySelector("main").classList;
 const article=document.querySelector("article");
 
@@ -11,6 +12,11 @@ const article=document.querySelector("article");
 plusButton.addEventListener("click",()=>{mainClassList.add("plus")
     mainClassList.remove("minus");
 });
+removeFormButton.addEventListener("click",(e)=>{
+    e.preventDefault();
+    mainClassList.remove("plus");
+    mainClassList.add("minus");
+})
 
 //submit button click
 submit.addEventListener("click",(e)=>{

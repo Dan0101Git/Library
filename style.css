@@ -5,7 +5,7 @@
 }
 :root{
     --body-background:beige;
-    --card-background:rgba(100, 100, 0, 0.513);
+    --card-background:rgba(111, 111, 0, 0.337);
     --button-background: #6b2737;
 --text-color:white;
 --card-display-color:rgba(65, 15, 51, 0.569);
@@ -24,26 +24,29 @@ body,html{
     padding:1.5rem;
     text-align: center;
     display: grid;
-    grid-template:1.5fr 10fr 1fr/3fr 1fr;
+    grid-template:minmax(auto,80px) 10fr minmax(auto,80px)/3fr 1fr;
     grid-template-areas: "header header"
     "main main"
     "footer footer";
     gap:1rem;
 }
 .container>*{
-    background-color:var(--card-display-color);
+    /* background-color:var(--card-display-color); */
     border-radius: 1rem;
 }
 .container header{
     grid-area: header;
-    background-color: var(--card-background);
+    /* background-color: var(--card-background); */
     display: flex;
     align-items: center;
     justify-content: center;
     font-family:cursive;
-    color:var(--button-background)
+    color:var(--button-background);
+    background-color: var(--body-background);
 }
-
+header img{
+    height: 90%;
+}
 main.plus{
     grid-area: main;
     display: grid;
@@ -61,7 +64,7 @@ main>*{
     border-radius: 1rem;
 }
 article{
-    background-color: #6b2737;
+    /* background-color: #6b2737; */
     
 }
 .minus .sidebar{
@@ -74,11 +77,12 @@ article{
 
     background-color: #6b273767;
     padding:1rem;
+    max-height: 70vh;
 
 }
 form{
     padding:1rem;
-
+position: relative;
 }
 form legend,label,form button{
         color: var(--form-font-color);
@@ -94,6 +98,23 @@ fieldset>div:not(.notimportant){
 legend{
     font-size: 2rem;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.remove-sidebar button{
+    position: absolute;
+    width:2rem;
+    height:2rem;
+    top:0;
+    right: 0;
+    border: none;
+    border-radius: 5px;
+background-color: rgba(128, 128, 128, 0.378);
+    color: var(--button-background);
+    padding:1em;
+    font-size: .7em;
+}
+.remove-sidebar button:hover{
+    scale:1.01;
+    box-shadow: 0 0 0 1px var(--button-background);
 }
 form fieldset>div,legend{
     margin-bottom: max(2.5rem,calc(2vw + 1rem));
@@ -247,7 +268,7 @@ visibility: hidden;
 }
 .card:not(.card.add-book):hover .delete-button{
     visibility: visible;
-    box-shadow:0 0 10px 5px var(--button-background) ;
+    box-shadow:0 0 1px 1px var(--body-background) ;
 }
  .card:not(.card.add-book):hover .delete-button:hover{
 font-weight: bold;
@@ -257,8 +278,8 @@ scale:1.05;
 /* cards styling(font sizes and managinging white spacing) */
 .card:not(.card.add-book){
     padding:2rem;
-    background:linear-gradient(to bottom right,var(--body-background),var(--card-background));
-    box-shadow:2px 2px 2px 2px var(--body-background) ;
+    /* background:linear-gradient(to bottom right,var(--button-background) 0%,var(--body-background) ,var(--button-background)); */
+    box-shadow:1px 1px 5px 3px var(--button-background) ;
 }
 .card .card-title{
     font-size: min(calc( 1.5vw + 1rem),2rem);
@@ -282,7 +303,7 @@ scale:1.05;
   display: flex;
   justify-content: center;
  align-items: center;
-  
+box-shadow:   0 0 5px 1px var(--button-background)
 }
 .card.add-book button{
     background: url("/images/plus.png");
@@ -314,5 +335,6 @@ footer{
     justify-content: center;
     font-family: cursive;
     font-size: .8rem;
-    color:var(--body-background)
+    color:var(--button-background);
+    background-color:#6b273717
 }
