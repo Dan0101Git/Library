@@ -6,8 +6,16 @@ const plusButton=document.querySelector(".add-book button");
 const removeFormButton=document.querySelector(".remove-sidebar button");
 const mainClassList=document.querySelector("main").classList;
 const article=document.querySelector("article");
-
-
+//store image url's
+const imgArray=["3idiots","inception","interstellar","udaan","whiplash"];
+//generate random url
+function generateRandomimgUrl(){
+    return `images/movies/${imgArray[rand(imgArray.length)]}.jpg`;
+}
+//random function fro rotate background images
+function rand(num){
+return Math.floor(Math.random()*num);
+}
 //change display to add form section(sidebar)
 plusButton.addEventListener("click",()=>{mainClassList.add("plus")
     mainClassList.remove("minus");
@@ -70,6 +78,8 @@ else {
 function createBookCard(book){
    
 const newBookCard=document.createElement("div");
+const cardImg=document.createElement("img");
+cardImg.className="card-image";
 newBookCard.className="card";
 newBookCard.classList.add(book.id);
 //add delete button to card
@@ -79,6 +89,9 @@ deleteButton.textContent="---";
 //add event listener to delete
 deleteButton.addEventListener("click",deleteCard);
 newBookCard.appendChild(deleteButton);
+    cardImg.setAttribute("src",generateRandomimgUrl());
+
+newBookCard.appendChild(cardImg);
 
 dataDisplay(book,newBookCard);
 article.firstElementChild.insertBefore(newBookCard,article.firstElementChild.children[0]);
@@ -119,7 +132,7 @@ else(cardNode.classList.add("card-author"));
 //add delete functionality
 function deleteCard(e){
    
-    console.log(myLibrary);
+    console.log("i am here");
     let index;
     const filteredobject=  myLibrary.filter((book)=>{
        if(book.id===e.target.parentNode.classList.value.slice(5,))
@@ -127,7 +140,7 @@ function deleteCard(e){
         return book.id===e.target.parentNode.classList.value.slice(5,)});
     myLibrary.splice(index,1);
     e.target.parentNode.remove();
-   console.log(myLibrary);
+   
 
 
    
