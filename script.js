@@ -1,11 +1,22 @@
     //define dom
+//flow on form submission
+//(button[type="submit"])=>click-> addBookto library(if form validation passes(check from filled),else show formm invalidation insrtcutions)
+ //3 actions to achieve, create books, udpate read,unread state and delete books
+//buttons decleration
+    const submit=document.querySelector("button[type='submit']"); //submit button
+   
+    const plusButton=document.querySelector(".add-book button"); //BUTTON TO VIEW FORM  
+    const removeFormButton=document.querySelector(".remove-sidebar button"); //button to remove form
 
+let crudAction;//to track state of action
 
-    const submit=document.querySelector("button[type='submit']");
-    const plusButton=document.querySelector(".add-book button");
-    const removeFormButton=document.querySelector(".remove-sidebar button");
-    const mainClassList=document.querySelector("main").classList;
+    //main (cards and form)
+
+    const mainClassList=document.querySelector("main").classList; 
+    const datasetList=[];
     const article=document.querySelector("article");
+    //array fro card items to be seen
+    const cardDisplayArray=["title","author","pages"];
     //store image url's
     const imgArray=["3idiots","inception","interstellar2","udaan","whiplash"];
     //generate random url
@@ -16,6 +27,9 @@
     function rand(num){
     return Math.floor(Math.random()*num);
     }
+
+
+    //add event listerners to form buttons(add remove form sidebar and form submission)
     //change display to add form section(sidebar)
     plusButton.addEventListener("click",()=>{mainClassList.add("plus")
         mainClassList.remove("minus");
@@ -26,30 +40,75 @@
         mainClassList.add("minus");
     })
 
+    //add delete functionality
+
+    function detectCard(node){//to detect which card action has been taken(button  lcick or deletion request)
+              let index=false;
+        const filteredobject=  myLibrary.forEach((book)=>{
+        if(book.id===node.getAttribute("data-set"))
+            index=myLibrary.indexOf(book);
+            return });
+            return index;
+    }
+
+//action on ui(front end),send action to backend(my library array), library array instrcuts dom to update
+
+//action 1, form submission
     //submit button click
-    submit.addEventListener("click",(e)=>{
+    submit.addEventListener("click",actionFormSubmission)
+
+function actionFormSubmission(e){
+        //store input values
         let title=document.querySelector("input#title").value;
         let author=document.querySelector("input#author").value;
         let pages=document.querySelector("input#pages").value;
         let read=document.querySelector("input#read").value;
-    e.preventDefault();
+        e.preventDefault();//browser default server sending data prevention
+
+        let book=makebook(title,author,pages,read);
+        if(checkFormFilled(book)){
+                //Add unique id to each  book
+                addBookToLibrary(book);
+
+                }
+        return;
+    }
+
+        function checkFormFilled(book){
+                        let flag=1;
+
+                    const required=document.querySelectorAll("input[required]");
+                    Array.from(required).forEach((node)=>{
+                        if(!book[node.getAttribute("id")])//could have used dname attribute in html here 
+                        {//if required fields are empty
+                            node.classList.add("invalid");//toggle vlasses
+                        flag=0;
+
+                        console.log(Array.from(node.classList));
+                        }
+                            else{
+                            //remove invalid property for next iteration
+
+                            if(Array.from(node.classList).indexOf("invalid")+1){
+                                console.log("invallid removed");
+                                node.classList.remove("invalid");
+                            
+                            }
+                }
+                })
+                            if(flag)//form submission allowed if required fields are not empty
+                        return true;
+                            else 
+                        return false;
+                            console.log(required);
+                // bookKeys.forEach((key)=>{console.log(book[key])});
+}
 
 
-    
-        addBookToLibrary(title,author,pages,read);
-    })
 
-
-
-
-
-
-
-
-
-    //store book into array
+        //store book into array
     const myLibrary = [];
-
+    //constructor for each book instance
     function Book(title,author,pages,read) {
     this.title=title;
     this.author=author;
@@ -57,151 +116,146 @@
     this.read=read;
 
     }
+    //add initial cards
+    addBookToLibrary(makebook("The Man  Who Knew Infinity","Danish Nayyar",4234,"on"));
+    addBookToLibrary(makebook("Subtle Art of not giving a f***","S.Ramanujan",234,"on"));
+    addBookToLibrary(makebook("The Man  Who Knew Infinity","Danish Nayyar",4234,"on"));
 
-    function addBookToLibrary(title,author,pages,read) {
-    //add data to card array
-        const book=new Book(title,author,pages,read);
-        console.dir(book);
-    if(checkFormFilled(book)){myLibrary.push(book);
-        //Add unique id to each  book
-        book.id=crypto.randomUUID();
-        console.log(book.id);
 
-    createBookCard(book);}
-    else {
-        console.log("form invalid");
-        return;
-    }
-
+    function makebook(title,author,pages,read){
+                       return new Book(title,author,pages,read);//define instance and fill object (instance)
 
     }
-    function createBookCard(book){
+//backend action functions
+    function addBookToLibrary(book) {
+                    //add data to card array
+                     book.id=crypto.randomUUID();
+                        myLibrary.push(book);//push to library if valid
+                       
+                  
+
+                    render(book,"create")
+
+    }
+    //action 2
+          function deleteCard(e){
+            console.log("PASSODI")
+        myLibrary.splice(detectCard(e.target.parentNode),1);//front end telling backendn to remove it from back end
+        render(myLibrary);
+       render(e.target.parentNode,"delete");
+    } 
+    //action 3
+function bookRead(e){ //cahneg bok read unread state
+let bookRead= myLibrary[detectCard(e.target.parentNode)];
+let readButton=e.target;
+let toggleRead;
+console.log(bookRead);
+        if(bookRead.read==="on"){
+            bookRead.read="off";
+                  toggleRead=0;
+            render([readButton,toggleRead],"update");
+         
+      
+            return;
+
+        }
+        if(bookRead.read==="off"){
+             
+            bookRead.read="on";
+             toggleRead=1;
+            render([readButton,toggleRead],"update");
+        
+
+           
+        }
     
-    const newBookCard=document.createElement("div");
+}
+     article.addEventListener("click",(e)=>{
+       console.log(e.target)
+       if(myLibrary[0]){
+       
+               if(Array.from(e.target.classList).includes("read-button"));
+            bookRead(e);
+       }
+     
+    });
+      article.addEventListener("click",(e)=>{
+       if(myLibrary[0]){
+        console.log( Array.from(e.target.classList));
+        if(Array.from(e.target.classList).includes("delete-button"))
+            deleteCard(e);
+}
+      });
+
+
+     function createBookCard(book){
+   const newBookCard=document.createElement("div");//.card div
+        newBookCard.className="card";
+    newBookCard.setAttribute("data-set",book.id)
+datasetList.push(book.id);
+    //card-image
     const cardImg=document.createElement("img");
     cardImg.className="card-image";
-    newBookCard.className="card";
-    newBookCard.classList.add(book.id);
-    //add delete button to card
+     cardImg.setAttribute("src",generateRandomimgUrl());
+
+    //card-delete-button
     const deleteButton=document.createElement("button");
     deleteButton.classList.add("delete-button");
     deleteButton.textContent="---";
-    //add event listener to delete
-    deleteButton.addEventListener("click",deleteCard);
-    newBookCard.appendChild(deleteButton);
-    //add read button
+   
+
+    //card-read button
         const readButton=document.createElement("button");
     readButton.classList.add("read-button");
     readButton.textContent="Read";
-    //add event listener to delete
-    readButton.addEventListener("click",bookRead);
-    newBookCard.appendChild(readButton);
+   
+
+   
 
 
-        cardImg.setAttribute("src",generateRandomimgUrl());
-
-    newBookCard.appendChild(cardImg);
-
-    dataDisplay(book,newBookCard);
+const bookKeys=Object.keys(book);
+    
+        bookKeys.forEach((key)=>{
+           
+        if(cardDisplayArray.indexOf(key)===-1){
+            console.log(cardDisplayArray.indexOf(key));
+             return;
+        }
+            const cardNode=document.createElement("p");
+                    cardNode.textContent=book[key];
+                    cardNode.classList.add(`card-${key}`);
+                    cardNode.classList.add("card-font");
+                    newBookCard.appendChild(cardNode);
+       
+        });
+         newBookCard.appendChild(readButton);
+    newBookCard.appendChild(deleteButton);
+        newBookCard.appendChild(cardImg);
     article.firstElementChild.insertBefore(newBookCard,article.firstElementChild.children[0]);
     mainClassList.remove("plus");
     mainClassList.add("minus");
 
     return;
+    
 
     }
-    function dataDisplay(book,newBookCard){
-        const bookKeys=Object.keys(book);
-        let bookEntryCount=0;
-        let flag=0;
-        bookKeys.forEach((key)=>{
-            bookEntryCount++;
-        if(flag===1){
-            return;
+  
+    function render(book,action){
+        if(action==="delete"){
+            book.remove();//book is node
         }
-            const cardNode=document.createElement("p");
-                    cardNode.textContent=book[key];
-            newBookCard.appendChild(cardNode);
-        cardNode.classList.add("card-font");
-                if(bookEntryCount<=2){
-    if(bookEntryCount===1){
-        cardNode.classList.add("card-title");
-    }
-    else(cardNode.classList.add("card-author"));
+        else if(action==="create"){
+            createBookCard(book);
+        }
+        else if(action==="update"){
+            if(!book[1]){
+                    book[0].classList.add("state-unread");
+            book[0].textContent="UnRead"; 
             }
-            else {
-                flag=1;
-                cardNode.textContent=`This book contains ${book["pages"]} pages `;
-            }
-
-        });
-
-    }
-function bookRead(e){
-let bookRead= myLibrary[detectCard(e)];
-let readButton=e.target;
-
-        if(bookRead.read==="on"){
-            readButton.classList.add("state-unread");
-            console.log(readButton);
-            bookRead.read="off";
-            readButton.textContent="UnRead"; 
-            return;
-
-        }
-        if(bookRead.read==="off"){
-                readButton.classList.remove("state-unread");
-            bookRead.read="on";
-            readButton.textContent="Read";
-        }
-    
-}
-    //add delete functionality
-    function deleteCard(e){
-    
-        console.log("i am here");
-
-        myLibrary.splice(detectCard(e),1);
-        e.target.parentNode.remove();
-    
-
-
-    
-    } 
-    function detectCard(e){
-              let index;
-        const filteredobject=  myLibrary.filter((book)=>{
-        if(book.id===e.target.parentNode.classList.value.slice(5,))
-            index=myLibrary.indexOf(book);
-            return book.id===e.target.parentNode.classList.value.slice(5,)});
-            return index;
-    }
-
-    function checkFormFilled(book){
-        let flag=1;
-    // const bookKeys=Object.keys(book);
-    const required=document.querySelectorAll("input[required]");
-    Array.from(required).forEach((node)=>{
-        if(!book[node.getAttribute("id")])
-        {
-            node.classList.add("invalid");
-        flag=0;
-
-        console.log(Array.from(node.classList));
-        }
             else{
-            //remove invalid property
-            if(Array.from(node.classList).indexOf("invalid")+1){
-                console.log("invallid removed");
-                node.classList.remove("invalid");
-            
+              book[0].classList.remove("state-unread");
+                book[0].textContent="Read";
             }
-}
-})
-if(flag)
-return true;
-else 
-return false;
-console.log(required);
-// bookKeys.forEach((key)=>{console.log(book[key])});
-}
+
+        }
+    }
