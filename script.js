@@ -174,18 +174,18 @@ console.log(bookRead);
        console.log(e.target)
        if(myLibrary[0]){
        
-               if(Array.from(e.target.classList).includes("read-button"));
-            bookRead(e);
+               if(Array.from(e.target.classList).includes("read-button"))
+                 bookRead(e);
+         
+     
+             if(Array.from(e.target.classList).includes("delete-button"))
+                deleteCard(e);
+
        }
+
      
     });
-      article.addEventListener("click",(e)=>{
-       if(myLibrary[0]){
-        console.log( Array.from(e.target.classList));
-        if(Array.from(e.target.classList).includes("delete-button"))
-            deleteCard(e);
-}
-      });
+
 
 
      function createBookCard(book){
