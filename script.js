@@ -68,21 +68,24 @@ function actionFormSubmission(e) {
 
 // Validate form inputs
 function checkFormFilled(book) {
-    let flag = 1;
-    const required = document.querySelectorAll("input[required]");
+    let flag=1;
+    const required = document.querySelectorAll("input");
 
     Array.from(required).forEach((node) => {
-        if (!book[node.getAttribute("id")]) {
+        console.log(node);
+        console.log(node.validity.valueMissing);
+        if (node.validity.valueMissing) {
+            flag=0;
             node.classList.add("invalid");
-            flag = 0;
+           return false;
         } else {
-            if (Array.from(node.classList).includes("invalid")) {
+            if(node.matches(".invalid"))
                 node.classList.remove("invalid");
-            }
+            return true;
         }
     });
-
-    return !!flag;
+return flag;
+   
 }
 
 class Book{
